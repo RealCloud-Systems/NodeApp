@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  MONGODB_PASSWORD: secret
+  MONGODB_USERNAME: max
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: backend-env-backend-env
+  name: env-backend-env
