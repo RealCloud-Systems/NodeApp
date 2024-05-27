@@ -13,8 +13,7 @@ spec:
   selector:
     matchLabels:
       io.kompose.service: mongodb
-  strategy:
-    type: Recreate
+  strategy: {}
   template:
     metadata:
       annotations:
@@ -27,26 +26,14 @@ spec:
       containers:
       - env:
         - name: MONGO_INITDB_ROOT_PASSWORD
-          valueFrom:
-            configMapKeyRef:
-              key: MONGO_INITDB_ROOT_PASSWORD
-              name: env-mongo-env
+          value: secret
         - name: MONGO_INITDB_ROOT_USERNAME
-          valueFrom:
-            configMapKeyRef:
-              key: MONGO_INITDB_ROOT_USERNAME
-              name: env-mongo-env
+          value: max
         image: mongo
         imagePullPolicy: ""
         name: mongodb
         resources: {}
-        volumeMounts:
-        - mountPath: /data/db
-          name: data
       restartPolicy: Always
       serviceAccountName: ""
-      volumes:
-      - name: data
-        persistentVolumeClaim:
-          claimName: data
+      volumes: null
 status: {}

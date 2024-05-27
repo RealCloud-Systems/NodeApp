@@ -3,17 +3,16 @@ version: "3"
 services:
   mongodb:
     image: 'mongo'
-    volumes:
-      - data:/data/db
-    # environment:
-    #   MONGO_INITDB_ROOT_USERNAME: max
-    #   MONGO_INITDB_ROOT_PASSWORD: secret
+    # volumes:
+    #   - data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: max
+      MONGO_INITDB_ROOT_PASSWORD: secret
     #   - MONGO_INITDB_ROOT_USERNAME=max
     #   - MONGO_INITDB_ROOT_PASSWORD=secret
-    env_file:
-      - ./env/mongo.env
   backend:
-    build: ./backend 
+    image: 'leandromarinh/backend'
+    # build: ./backend
     # build: 
     #   context: ./backend
     #   dockerfile: Dockerfile
@@ -21,25 +20,29 @@ services:
     #     some-arg: 1
     ports:
       - '80:80'
-    volumes:
-      - logs:/app/logs
-      - ./backend:/app
-      - /app/node_modules
-    env_file:
-      - ./env/backend.env
+    # volumes:
+    #   - logs:/app/logs
+    #   - ./backend:/app
+    #   - /app/node_modules
+    environment:
+      MONGODB_USERNAME: max
+      MONGODB_PASSWORD: secret
     depends_on:
       - mongodb
   frontend:
-    build: ./frontend
+    image: 'leandromarinh/frontend'
+    # build: ./frontend
     ports:
       - '3000:3000'
-    volumes:
-      - ./frontend/src:/app/src
+    # volumes:
+    #   - ./frontend/src:/app/src
+    environment:
+      BACKEND_SERVICE_SERVICE_HOST: backend
     stdin_open: true
     tty: true
     depends_on:
       - backend
 
-volumes:
-  data:
-  logs:
+# volumes:
+#   data:
+#   logs:

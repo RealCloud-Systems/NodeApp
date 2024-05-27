@@ -13,8 +13,7 @@ spec:
   selector:
     matchLabels:
       io.kompose.service: backend
-  strategy:
-    type: Recreate
+  strategy: {}
   template:
     metadata:
       annotations:
@@ -27,38 +26,16 @@ spec:
       containers:
       - env:
         - name: MONGODB_PASSWORD
-          valueFrom:
-            configMapKeyRef:
-              key: MONGODB_PASSWORD
-              name: env-backend-env
+          value: secret
         - name: MONGODB_USERNAME
-          valueFrom:
-            configMapKeyRef:
-              key: MONGODB_USERNAME
-              name: env-backend-env
-        image: backend
+          value: max
+        image: leandromarinh/backend
         imagePullPolicy: ""
         name: backend
         ports:
         - containerPort: 80
         resources: {}
-        volumeMounts:
-        - mountPath: /app/logs
-          name: logs
-        - mountPath: /app
-          name: backend-claim1
-        - mountPath: /app/node_modules
-          name: backend-claim2
       restartPolicy: Always
       serviceAccountName: ""
-      volumes:
-      - name: logs
-        persistentVolumeClaim:
-          claimName: logs
-      - name: backend-claim1
-        persistentVolumeClaim:
-          claimName: backend-claim1
-      - name: backend-claim2
-        persistentVolumeClaim:
-          claimName: backend-claim2
+      volumes: null
 status: {}

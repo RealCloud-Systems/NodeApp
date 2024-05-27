@@ -13,8 +13,7 @@ spec:
   selector:
     matchLabels:
       io.kompose.service: frontend
-  strategy:
-    type: Recreate
+  strategy: {}
   template:
     metadata:
       annotations:
@@ -25,7 +24,10 @@ spec:
         io.kompose.service: frontend
     spec:
       containers:
-      - image: frontend
+      - env:
+        - name: BACKEND_SERVICE_SERVICE_HOST
+          value: "backend.default"
+        image: leandromarinh/frontend
         imagePullPolicy: ""
         name: frontend
         ports:
@@ -33,13 +35,7 @@ spec:
         resources: {}
         stdin: true
         tty: true
-        volumeMounts:
-        - mountPath: /app/src
-          name: frontend-claim0
       restartPolicy: Always
       serviceAccountName: ""
-      volumes:
-      - name: frontend-claim0
-        persistentVolumeClaim:
-          claimName: frontend-claim0
+      volumes: null
 status: {}
