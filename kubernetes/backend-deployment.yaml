@@ -29,7 +29,7 @@ spec:
           value: secret
         - name: MONGODB_USERNAME
           value: max
-        image: leandromarinh/backend
+        image: backend
         imagePullPolicy: ""
         name: backend
         ports:

@@ -14,7 +14,7 @@ function App() {
       setIsLoading(true);
 
       try {
-        const response = await fetch(`http://${process.env.BACKEND_SERVICE_HOST}/goals`);
+        const response = await fetch(`http://10.110.190.145/goals`);
 
         const resData = await response.json();
 
@@ -39,7 +39,7 @@ function App() {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`http://${process.env.BACKEND_SERVICE_HOST}/goals`, {
+      const response = await fetch(`http://10.110.190.145/goals`, {
         method: 'POST',
         body: JSON.stringify({
           text: goalText,
@@ -78,7 +78,7 @@ function App() {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`http://${process.env.BACKEND_SERVICE_HOST}/goals/` + goalId, {
+      const response = await fetch(`http://10.110.190.145/goals/` + goalId, {
         method: 'DELETE',
       });
 

@@ -1,0 +1,55 @@
+name: CI
+on:
+  push:
+    branches: [main]
+jobs:
+    build:
+      name: Build
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout
+          uses: actions/checkout@v3
+        
+        - name: build frontend image and push to docker hub 
+          uses: docker/build-push-action@v1.1.0
+          with:
+            username: leandromarinh
+            password: ${{ secrets.DOCKER_PASSWORD }}
+            repository: leandromarinh/frontend
+            tags: ${{ github.sha }}, latest
+        
+            
+        - name: build backend image and push to docker hub 
+          uses: docker/build-push-action@v1.1.0
+          with:
+            username: leandromarinh
+            password: ${{ secrets.DOCKER_PASSWORD }}
+            repository: leandromarinh/backend
+            tags: ${{ github.sha }}, latest
+    
+    deploy:
+      name: Deploy
+      runs-on: ubuntu-latest
+      needs: build
+      steps:
+        - name: checkout
+          uses: actions/checkout@v3
+  
+        - name: kustomize
+          uses: imranismail/setup-kustomize@v2
+          with:
+            kustomize-version: v3.8.7
+  
+        - name: update k8s
+          run: |
+            cd k8s
+            kustomize edit set image frontend=leandromarinh/frontend:${{ github.sha }} backend=leandromarinh/backend:${{ github.sha }}
+            cat kustomization.yaml
+        - name: commit
+          run: |
+            git config --local user.email "action@github.com"
+            git config --local user.name "Deploy Action"
+            git commit -am "image update done by kustomization"
+        - name: push
+          uses: ad-m/github-push-action@master
+  

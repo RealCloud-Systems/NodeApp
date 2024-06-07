@@ -25,9 +25,9 @@ spec:
     spec:
       containers:
       - env:
-        - name: BACKEND_SERVICE_SERVICE_HOST
+        - name: BACKEND_SERVICE_HOST
           value: "backend.default"
-        image: leandromarinh/frontend
+        image: frontend
         imagePullPolicy: ""
         name: frontend
         ports:
