@@ -57,13 +57,13 @@ jobs:
         
         - name: Integrate with Upwind
           env:
-          IMAGE: ${{ inputs.image }}
-          IMAGE_SHA: ${{ inputs.image_sha }}
-          UPWIND_API_ENDPOINT: https://api.upwind.io
-          UPWIND_AUTH_ENDPOINT: https://auth.upwind.io
-          UPWIND_ORGANIZATION_ID: ${{ secrets.UPWIND_ORGANIZATION_ID }}
-          UPWIND_CLIENT_SECRET: ${{ secrets.UPWIND_CLIENT_SECRET }}
-          UPWIND_CLIENT_ID: ${{ secrets.UPWIND_CLIENT_ID }}
+            IMAGE: ${{ inputs.image }}
+            IMAGE_SHA: ${{ inputs.image_sha }}
+            UPWIND_API_ENDPOINT: https://api.upwind.io
+            UPWIND_AUTH_ENDPOINT: https://auth.upwind.io
+            UPWIND_ORGANIZATION_ID: ${{ secrets.UPWIND_ORGANIZATION_ID }}
+            UPWIND_CLIENT_SECRET: ${{ secrets.UPWIND_CLIENT_SECRET }}
+            UPWIND_CLIENT_ID: ${{ secrets.UPWIND_CLIENT_ID }}
           run: |
             # Get Access Token
             response=$(curl -s --location "${UPWIND_AUTH_ENDPOINT}/oauth/token" \
