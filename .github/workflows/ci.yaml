@@ -13,7 +13,7 @@ jobs:
         - name: build frontend image and push to docker hub 
           uses: docker/build-push-action@v1.1.0
           with:
-            context: ./frontend
+            path: ./frontend
             username: leandromarinh
             password: ${{ secrets.DOCKER_PASSWORD }}
             repository: leandromarinh/frontend
@@ -23,7 +23,7 @@ jobs:
         - name: build backend image and push to docker hub 
           uses: docker/build-push-action@v1.1.0
           with:
-            context: ./backend
+            path: ./backend
             username: leandromarinh
             password: ${{ secrets.DOCKER_PASSWORD }}
             repository: leandromarinh/backend
