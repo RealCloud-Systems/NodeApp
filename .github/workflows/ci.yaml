@@ -42,9 +42,9 @@ jobs:
           with:
             kustomize-version: 4.5.7
   
-        - name: update k8s
+        - name: update kubernetes
           run: |
-            cd k8s
+            cd kubernetes
             kustomize edit set image frontend=leandromarinh/frontend:${{ github.sha }} backend=leandromarinh/backend:${{ github.sha }}
             cat kustomization.yaml
         - name: commit
