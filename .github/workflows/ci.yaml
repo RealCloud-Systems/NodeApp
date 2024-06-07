@@ -59,12 +59,7 @@ jobs:
 
       - name: push
         uses: ad-m/github-push-action@master
-
-  upwind:
-    name: Upwind
-    runs-on: ubuntu-latest
-    needs: deplo
-    step:
+        
       - name: call Upwind API
         env:
           UPWIND_API_ENDPOINT: ${{ secrets.UPWIND_API_ENDPOINT }}
