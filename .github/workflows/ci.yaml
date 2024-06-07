@@ -59,7 +59,7 @@ jobs:
 
       - name: push
         uses: ad-m/github-push-action@master
-        
+
       - name: call Upwind API
         env:
           UPWIND_API_ENDPOINT: ${{ secrets.UPWIND_API_ENDPOINT }}
@@ -69,31 +69,31 @@ jobs:
           UPWIND_ORGANIZATION_ID: ${{ secrets.UPWIND_ORGANIZATION_ID }}
           IMAGE: ${{ env.IMAGE }}
           IMAGE_SHA: ${{ env.IMAGE_SHA }}
-          run: |
-            # Get Access Token
-            response=$(curl -s --location "${UPWIND_AUTH_ENDPOINT}/oauth/token" \
-              --header "Content-Type: application/x-www-form-urlencoded" \
-              --data-urlencode "grant_type=client_credentials" \
-              --data-urlencode "audience=${UPWIND_API_ENDPOINT}" \
-              --data-urlencode "client_id=${UPWIND_CLIENT_ID}" \
-              --data-urlencode "client_secret=${UPWIND_CLIENT_SECRET}")
-            ACCESS_TOKEN=$(echo "$response" | jq -r '.access_token')
+        run: |
+          # Get Access Token
+          response=$(curl -s --location "${UPWIND_AUTH_ENDPOINT}/oauth/token" \
+            --header "Content-Type: application/x-www-form-urlencoded" \
+            --data-urlencode "grant_type=client_credentials" \
+            --data-urlencode "audience=${UPWIND_API_ENDPOINT}" \
+            --data-urlencode "client_id=${UPWIND_CLIENT_ID}" \
+            --data-urlencode "client_secret=${UPWIND_CLIENT_SECRET}")
+          ACCESS_TOKEN=$(echo "$response" | jq -r '.access_token')
 
-            # Call Upwind API
-            curl -fsSL "${UPWIND_API_ENDPOINT}/v1/organizations/$UPWIND_ORGANIZATION_ID/events" \
-              --request POST \
-              --write-out "\n%{http_code}" \
-              --header "Content-Type: application/json" \
-              --header "Authorization: Bearer $ACCESS_TOKEN" \
-              --data '{
-                "type": "image_build",
-                "reporter": "github_actions",
-                "data": {
-                  "image": "'"${IMAGE}"'",
-                  "commit_sha": "'"${GITHUB_SHA}"'",
-                  "repository": "https://github.com/'"${GITHUB_REPOSITORY}"'.git",
-                  "branch": "'"${GITHUB_REF_NAME}"'",
-                  "image_sha": "'"${IMAGE_SHA}"'",
-                  "build_time": "'"$(date +'%Y-%m-%dT%H:%M:%SZ')"'" 
-                }
-              }'
+          # Call Upwind API
+          curl -fsSL "${UPWIND_API_ENDPOINT}/v1/organizations/$UPWIND_ORGANIZATION_ID/events" \
+            --request POST \
+            --write-out "\n%{http_code}" \
+            --header "Content-Type: application/json" \
+            --header "Authorization: Bearer $ACCESS_TOKEN" \
+            --data '{
+              "type": "image_build",
+              "reporter": "github_actions",
+              "data": {
+                "image": "'"${IMAGE}"'",
+                "commit_sha": "'"${GITHUB_SHA}"'",
+                "repository": "https://github.com/'"${GITHUB_REPOSITORY}"'.git",
+                "branch": "'"${GITHUB_REF_NAME}"'",
+                "image_sha": "'"${IMAGE_SHA}"'",
+                "build_time": "'"$(date +'%Y-%m-%dT%H:%M:%SZ')"'" 
+              }
+            }'
