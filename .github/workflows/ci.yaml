@@ -62,7 +62,7 @@ jobs:
       - name: Integrate backend image
         env:
           IMAGE: leandromarinh/backend
-          IMAGE_SHA: sha256:66ec588ea57872c5476543dfe67ddc4d83ff77e1adb8d2ed72a457fd2fc6c5ea
+          IMAGE_SHA: sha256:81e17706b8cfc9339e6fc14a041e3bfa33dc69c86ec08db2e4d68f004c431f30
           UPWIND_API_ENDPOINT: https://api.upwind.io
           UPWIND_AUTH_ENDPOINT: https://auth.upwind.io
           UPWIND_ORGANIZATION_ID: ${{ secrets.UPWIND_ORGANIZATION_ID }}
@@ -100,7 +100,7 @@ jobs:
       - name: Integrate frontend image
         env:
           IMAGE: leandromarinh/frontend
-          IMAGE_SHA: sha256:de3a53978f64793fca5318f6cd03404e873d916bf7d4a0eef2ca09314e72966e
+          IMAGE_SHA: sha256:7481f8c88cc44ef08d10416dbb3c7162a761093b3cf76945b3481d2671c0f902
           UPWIND_API_ENDPOINT: https://api.upwind.io
           UPWIND_AUTH_ENDPOINT: https://auth.upwind.io
           UPWIND_ORGANIZATION_ID: ${{ secrets.UPWIND_ORGANIZATION_ID }}
@@ -135,5 +135,6 @@ jobs:
                 }
               }'
             "
+
 # testando troca do org id
 # testando novamente
