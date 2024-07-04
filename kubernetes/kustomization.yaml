@@ -11,7 +11,7 @@ namespace: upwind-labs
 images:
 - name: backend
   newName: leandromarinh/backend
-  newTag: e32e307db0032e32fccbd184a9cb3dcfc5538931
+  newTag: f2d23138067db35e20a2b16081753bcc0c302c81
 - name: frontend
   newName: leandromarinh/frontend
-  newTag: e32e307db0032e32fccbd184a9cb3dcfc5538931
+  newTag: f2d23138067db35e20a2b16081753bcc0c302c81
