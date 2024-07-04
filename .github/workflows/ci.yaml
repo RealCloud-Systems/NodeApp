@@ -76,7 +76,7 @@ jobs:
           IMAGE_SHA: ${{ needs.build.outputs.backend_sha }}
           UPWIND_API_ENDPOINT: https://api.upwind.io
           UPWIND_AUTH_ENDPOINT: https://auth.upwind.io
-          UPWIND_ORGANIZATION_ID: ${{ secrets.UPWIND_ORGANIZATION_ID }}
+          UPWIND_ORGANIZATION_ID: dsidsidjsijdsijdsid
           UPWIND_CLIENT_SECRET: ${{ secrets.UPWIND_CLIENT_SECRET }}
           UPWIND_CLIENT_ID: ${{ secrets.UPWIND_CLIENT_ID }}
         run: |
@@ -108,6 +108,7 @@ jobs:
                 }
               }'
             "
+            echo CURL_CMD
       - name: Integrate frontend image
         env:
           IMAGE: leandromarinh/frontend
@@ -146,6 +147,7 @@ jobs:
                 }
               }'
             "
+          echo CURL_CMD
 
 # testando troca do org id
 # testando novamente
