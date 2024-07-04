@@ -108,7 +108,13 @@ jobs:
                 }
               }'
             "
-            echo CURL_CMD
+            response=$(eval "${CURL_CMD}"
+            echo "${response}"
+            response_code=$(echo "${response}" | tail -n 1)
+            response_body=$(echo "${response}" | sed '$ d' | jq '.')
+            echo "Status Code: ${response_code}"
+            echo "Response:"
+            echo "${response_body}"
       - name: Integrate frontend image
         env:
           IMAGE: leandromarinh/frontend
@@ -147,7 +153,13 @@ jobs:
                 }
               }'
             "
-          echo CURL_CMD
+          response=$(eval "${CURL_CMD}"
+          echo "${response}"
+          response_code=$(echo "${response}" | tail -n 1)
+          response_body=$(echo "${response}" | sed '$ d' | jq '.')
+          echo "Status Code: ${response_code}"
+          echo "Response:"
+          echo "${response_body}"
 
 # testando troca do org id
 # testando novamente
