@@ -1,7 +1,8 @@
 name: CI
 on:
-  push:
-    branches: [main]
+  pull_request:
+    branches:
+      - main
 jobs:
   build:
     name: Build
@@ -47,23 +48,34 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
 
-      - name: kustomize
-        uses: imranismail/setup-kustomize@v2
-        with:
-          kustomize-version: 4.5.7
+    - name: Pull changes from main branch
+      run: |
+        git fetch origin
+        git reset --hard origin/main
 
-      - name: update kubernetes
-        run: |
-          cd kubernetes
-          kustomize edit set image frontend=leandromarinh/frontend:${{ github.sha }} backend=leandromarinh/backend:${{ github.sha }}
-          cat kustomization.yaml
-      - name: commit
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "Deploy Action"
-          git commit -am "image update done by kustomization"
-      - name: push
-        uses: ad-m/github-push-action@master
+    - name: kustomize
+      uses: imranismail/setup-kustomize@v2
+      with:
+        kustomize-version: 4.5.7
+
+    - name: update kubernetes
+      run: |
+        cd kubernetes
+        kustomize edit set image frontend=leandromarinh/frontend:${{ github.sha }} backend=leandromarinh/backend:${{ github.sha }}
+        cat kustomization.yaml
+
+    - name: Set up Git
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "Deploy Action"
+
+    - name: Commit changes
+      run: |
+        git add .
+        git commit -m "image update done by kustomization"
+
+    - name: Push changes
+      uses: ad-m/github-push-action@v0.6.0
 
   upwind:
     name: Upwind
@@ -89,7 +101,7 @@ jobs:
             --data-urlencode "client_secret=${UPWIND_CLIENT_SECRET}")
           ACCESS_TOKEN=$(echo "$response" | jq -r '.access_token')
 
-            # Call Upwind API
+          # Call Upwind API
           CURL_CMD="curl -fsSL \"${UPWIND_API_ENDPOINT}/v1/organizations/$UPWIND_ORGANIZATION_ID/events\" \
             --request POST \
             --write-out \"\n%{http_code}\" \
@@ -161,3 +173,5 @@ jobs:
           echo "Response:"
           echo "${response_body}"
 
+
+# testando pull request
