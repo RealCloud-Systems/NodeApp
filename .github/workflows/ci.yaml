@@ -1,7 +1,8 @@
 name: CI
 on:
-  push:
-    branches: [main]
+  pull_request:
+    branches:
+      - main
 jobs:
   build:
     name: Build
@@ -89,7 +90,7 @@ jobs:
             --data-urlencode "client_secret=${UPWIND_CLIENT_SECRET}")
           ACCESS_TOKEN=$(echo "$response" | jq -r '.access_token')
 
-            # Call Upwind API
+          # Call Upwind API
           CURL_CMD="curl -fsSL \"${UPWIND_API_ENDPOINT}/v1/organizations/$UPWIND_ORGANIZATION_ID/events\" \
             --request POST \
             --write-out \"\n%{http_code}\" \
@@ -160,4 +161,3 @@ jobs:
           echo "Status Code: ${response_code}"
           echo "Response:"
           echo "${response_body}"
-
