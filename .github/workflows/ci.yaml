@@ -48,34 +48,37 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
 
-    - name: Pull changes from main branch
-      run: |
-        git fetch origin
-        git reset --hard origin/main
+      - name: Pull changes from main branch
+        run: |
+          git fetch origin
+          git reset --hard origin/main
 
-    - name: kustomize
-      uses: imranismail/setup-kustomize@v2
-      with:
-        kustomize-version: 4.5.7
+      - name: kustomize
+        uses: imranismail/setup-kustomize@v2
+        with:
+          kustomize-version: 4.5.7
 
-    - name: update kubernetes
-      run: |
-        cd kubernetes
-        kustomize edit set image frontend=leandromarinh/frontend:${{ github.sha }} backend=leandromarinh/backend:${{ github.sha }}
-        cat kustomization.yaml
+      - name: update kubernetes
+        run: |
+          cd kubernetes
+          kustomize edit set image frontend=leandromarinh/frontend:${{ github.sha }} backend=leandromarinh/backend:${{ github.sha }}
+          cat kustomization.yaml
 
-    - name: Set up Git
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "Deploy Action"
+      - name: Set up Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "Deploy Action"
 
-    - name: Commit changes
-      run: |
-        git add .
-        git commit -m "image update done by kustomization"
+      - name: Commit changes
+        run: |
+          git add .
+          git commit -m "image update done by kustomization"
 
-    - name: Push changes
-      uses: ad-m/github-push-action@v0.6.0
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
 
   upwind:
     name: Upwind
